@@ -1,0 +1,29 @@
+# Librerías necesarias
+library(dplyr)
+
+# Definir la ruta del archivo ZIP y la de extracción
+zip_file_path <- "C:/Users/andre/Downloads/epa-http.zip"
+extract_to <- "C:/Users/andre/Downloads/extracted_files/"
+
+# Crear el directorio de extracción si no existe
+if (!dir.exists(extract_to)) {
+  dir.create(extract_to)
+}
+
+# Descomprimir el archivo ZIP
+unzip(zip_file_path, exdir = extract_to)
+
+# Verifica que los archivos se han descomprimido correctamente
+dir(extract_to)
+
+
+# Definir la ruta del archivo extraído
+extracted_file_path <- "C:/Users/andre/Downloads/extracted_files/epa-http.csv"
+
+# Cargar los datos en un DataFrame
+logs_df <- read.csv(extracted_file_path, header = TRUE, sep = " ")
+
+# Asegurarse de que los datos se carguen correctamente en columnas
+head(logs_df)
+
+
