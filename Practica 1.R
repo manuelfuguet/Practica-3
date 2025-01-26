@@ -49,3 +49,27 @@ errores_por_tipo <- epa_data %>%
 cat("Resumen de errores:\n")
 print(errores_por_tipo)
 
+
+
+# Paso 4:Tipos de peticiones HTTP
+# Extraer el método HTTP del campo "request"
+
+epa_data$method <- sapply(strsplit(epa_data$request, " "), [, 1)
+
+# Contar frecuencia de cada método
+metodos_frecuencia <- epa_data %>%
+  group_by(method) %>%
+  summarize(frecuencia = n()) %>%
+  arrange(desc(frecuencia))
+
+cat("Frecuencia de métodos HTTP:\n")
+print(metodos_frecuencia)
+
+# Frecuencia para recursos de tipo imagen
+imagen_frecuencia <- epa_data %>%
+  filter(grepl("\\.(jpg|png|gif|ico|bmp)$", request, ignore.case = TRUE)) %>%
+  group_by(method) %>%
+  summarize(frecuencia = n())
+
+cat("Frecuencia de métodos HTTP para recursos de imagen:\n")
+print(imagen_frecuencia)
