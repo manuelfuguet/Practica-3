@@ -15,22 +15,74 @@ print(colnames(epa_http))
 print(colnames(epa_http))
 
 
-epa_http$`Bytes of Reply` <- gsub("-", NA, epa_http$`Bytes of Reply`)
+# Cargar las librerías necesarias
+library(dplyr)     # Para manipulación de datos
+library(lubridate) # Para trabajar con fechas y horas
 
-# Convertir la columna 'Bytes of Reply' a numérico
-epa_http$`Bytes of Reply` <- as.numeric(epa_http$`Bytes of Reply`)
+
+############### D E S D E - A Q U Í - E S - E L - E N U N C I A D O - 3 -
+############### L  I  M  P  I  E  Z  A  - D E - D  A  T  O  S 
 
 
-valor_medio <- mean(epa_http$`Bytes of Reply`, na.rm = TRUE)
+# Convertir los datos al tipo adecuado
+epa_http$Timestamp <- ymd_hms(epa_http$Timestamp)                # Convertir a timestamp
+epa_http$Response_Code <- as.integer(epa_http$Response_Code)     # Convertir a entero
+epa_http$Bytes_of_Reply <- as.numeric(epa_http$Bytes_of_Reply)   # Convertir a numérico
 
+# Limpiar la columna 'Bytes_of_Reply' reemplazando guiones por NA
+epa_http$Bytes_of_Reply <- gsub("-", NA, epa_http$Bytes_of_Reply)
+epa_http$Bytes_of_Reply <- as.numeric(epa_http$Bytes_of_Reply)
+
+# Remover espacios adicionales en las columnas de tipo cadena de caracteres
+epa_http$IP <- trimws(epa_http$IP)
+epa_http$Request_Type <- trimws(epa_http$Request_Type)
+epa_http$URL <- trimws(epa_http$URL)
+epa_http$Protocol <- trimws(epa_http$Protocol)
+
+# Verificar las primeras filas después de la limpieza
+head(epa_http)
+
+# Calcular el promedio de la columna 'Bytes_of_Reply'
+valor_medio <- mean(epa_http$Bytes_of_Reply, na.rm = TRUE)
 
 # Calcular las dimensiones del dataset
 dimensiones <- dim(epa_http)
 
 # Mostrar el resultado del promedio y las dimensiones del dataset
-
-print(paste("Promedio de 'Bytes of Reply':", valor_medio))
+print(paste("Promedio de 'Bytes_of_Reply':", valor_medio))
 print(paste("Dimensiones del dataset (Filas, Columnas):", paste(dimensiones, collapse = ", ")))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Pregunta 2 
