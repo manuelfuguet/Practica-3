@@ -23,3 +23,12 @@ epa_data$bytes[is.na(epa_data$bytes)] <- 0
 # Filtrar códigos HTTP válidos
 valid_status_codes <- c(200, 201, 202, 204, 301, 302, 304, 400, 401, 403, 404, 500, 501)
 epa_data <- epa_data %>% filter(status %in% valid_status_codes)
+
+
+# Paso 2: Descripción de los datos
+
+cat("Descripción de los datos:\n")
+cat("Número de registros:", nrow(epa_data), "\n")
+cat("Columnas:\n")
+print(colnames(epa_data))
+summary(epa_data)
