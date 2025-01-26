@@ -46,9 +46,7 @@ cat("Resumen de errores:\n")
 print(errores_por_tipo)
 
 # Paso 4:Tipos de peticiones HTTP
-# Extraer el método HTTP del campo "request"
-
-epa_data$method <- sapply(strsplit(epa_data$request, " "), [, 1)
+epa_data$method <- sapply(strsplit(epa_data$request, " "), `[`, 1)
 
 # Contar frecuencia de cada método
 metodos_frecuencia <- epa_data %>%
