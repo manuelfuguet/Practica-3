@@ -45,11 +45,31 @@ num_ips_edu <- length(ips_edu)
 print(paste("Número de IPs educativas:", num_ips_edu))
 
 
-
 ## Pregunta 3
 
 
+#De todas las peticiones recibidas por el servidor cual es la hora en la que hay mayor volumen de peticiones HTTP de tipo "GET"?
 
+# Filtrar las solicitudes de tipo GET
+
+get_requests = data[data['Request_Type'] == 'GET']
+
+# Extraer la hora de cada petición
+
+get_requests['Hour'] = get_requests['Timestamp'].str.split(':').str[1]
+
+
+# Calcular la hora con el mayor volumen de peticiones GET
+
+hourly_counts = get_requests['Hour'].value_counts()
+
+peak_hour = hourly_counts.idxmax()
+
+peak_count = hourly_counts.max()
+
+peak_hour, peak_count
+
+El mayor volumen de peticiones HTTP de tipo "GET" es a las 14:00, con 4546 peticiones
 
 
 
