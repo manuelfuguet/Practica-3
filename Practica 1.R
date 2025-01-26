@@ -73,3 +73,24 @@ imagen_frecuencia <- epa_data %>%
 
 cat("Frecuencia de métodos HTTP para recursos de imagen:\n")
 print(imagen_frecuencia)
+
+# Paso 5: Visualización de resultados
+
+# Gráfico 1: Número de peticiones por método HTTP
+ggplot(metodos_frecuencia, aes(x = method, y = frecuencia, fill = method)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Frecuencia de Métodos HTTP", x = "Método HTTP", y = "Frecuencia")
+
+# Gráfico 2: Número de errores por tipo
+ggplot(errores_por_tipo, aes(x = as.factor(status), y = total, fill = as.factor(status))) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Errores por Código HTTP", x = "Código HTTP", y = "Frecuencia")
+
+# Gráfico 3: Peticiones a lo largo del tiempo
+epa_data$hora <- format(epa_data$timestamp, "%H:%M:%S")
+ggplot(epa_data, aes(x = timestamp)) +
+  geom_histogram(binwidth = 3600, fill = "blue", color = "white") +
+  theme_minimal() +
+  labs(title = "Peticiones Servidas a lo Largo del Tiempo", x = "Tiempo", y = "Cantidad")
