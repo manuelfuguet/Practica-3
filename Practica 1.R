@@ -4,7 +4,6 @@ library(data.table)
 library(mltools)
 
 # Paso 1: Cargar y explorar los datos
-
 # Cargar los datos desde el archivo CSV
 file_path <- "~/Desktop/epa-http.csv"
 epa_data <- read.csv(file_path, header = FALSE, sep = " ", stringsAsFactors = FALSE)
@@ -26,7 +25,6 @@ epa_data <- epa_data %>% filter(status %in% valid_status_codes)
 
 
 # Paso 2: Descripción de los datos
-
 cat("Descripción de los datos:\n")
 cat("Número de registros:", nrow(epa_data), "\n")
 cat("Columnas:\n")
@@ -34,7 +32,6 @@ print(colnames(epa_data))
 summary(epa_data)
 
 # Paso 3:Explorar datos únicos y errores
-
 usuarios_error <- epa_data %>%
   mutate(error = status >= 400) %>%
   group_by(host, error) %>%
@@ -48,8 +45,6 @@ errores_por_tipo <- epa_data %>%
 
 cat("Resumen de errores:\n")
 print(errores_por_tipo)
-
-
 
 # Paso 4:Tipos de peticiones HTTP
 # Extraer el método HTTP del campo "request"
@@ -75,7 +70,6 @@ cat("Frecuencia de métodos HTTP para recursos de imagen:\n")
 print(imagen_frecuencia)
 
 # Paso 5: Visualización de resultados
-
 # Gráfico 1: Número de peticiones por método HTTP
 ggplot(metodos_frecuencia, aes(x = method, y = frecuencia, fill = method)) +
   geom_bar(stat = "identity") +
@@ -94,10 +88,6 @@ ggplot(epa_data, aes(x = timestamp)) +
   geom_histogram(binwidth = 3600, fill = "blue", color = "white") +
   theme_minimal() +
   labs(title = "Peticiones Servidas a lo Largo del Tiempo", x = "Tiempo", y = "Cantidad")
-
-
-
-
 
 # Paso 6: Clustering con k-means
 # Agregar una columna con la longitud de la URL
