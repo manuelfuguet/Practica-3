@@ -32,3 +32,20 @@ cat("Número de registros:", nrow(epa_data), "\n")
 cat("Columnas:\n")
 print(colnames(epa_data))
 summary(epa_data)
+
+# Paso 3:Explorar datos únicos y errores
+
+usuarios_error <- epa_data %>%
+  mutate(error = status >= 400) %>%
+  group_by(host, error) %>%
+  summarize(total_requests = n()) %>%
+  ungroup()
+
+errores_por_tipo <- epa_data %>%
+  filter(status >= 400) %>%
+  group_by(status) %>%
+  summarize(total = n())
+
+cat("Resumen de errores:\n")
+print(errores_por_tipo)
+
