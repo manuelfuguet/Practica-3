@@ -94,3 +94,47 @@ ggplot(epa_data, aes(x = timestamp)) +
   geom_histogram(binwidth = 3600, fill = "blue", color = "white") +
   theme_minimal() +
   labs(title = "Peticiones Servidas a lo Largo del Tiempo", x = "Tiempo", y = "Cantidad")
+
+
+
+
+
+# Paso 6: Clustering con k-means
+# Agregar una columna con la longitud de la URL
+epa_data$url_length <- nchar(epa_data$request)
+
+# One-hot encoding de métodos HTTP
+epa_data_encoded <- one_hot(as.data.table(epa_data$method))
+
+# Crear clustering_data asegurando que las columnas necesarias están incluidas
+clustering_data <- cbind(
+  epa_data_encoded,
+  url_length = epa_data$url_length, 
+  bytes = epa_data$bytes           
+)
+
+# Seleccionar únicamente columnas numéricas y manejar NA
+clustering_data <- clustering_data %>% 
+  select(where(is.numeric)) %>%  
+  na.omit()                      
+
+# Verificar si las columnas necesarias están presentes
+print(colnames(clustering_data))  
+
+# Aplicar k-means con k = 3 y k = 4
+set.seed(123)
+kmeans_3 <- kmeans(clustering_data, centers = 3)
+kmeans_4 <- kmeans(clustering_data, centers = 4)
+
+# Graficar resultados asegurando que las columnas existen
+plot(clustering_data[, c("url_length", "bytes")], 
+     col = kmeans_3$cluster,
+     main = "Clustering con k = 3",
+     xlab = "Longitud de URL",
+     ylab = "Bytes")
+
+plot(clustering_data[, c("url_length", "bytes")],  
+     col = kmeans_4$cluster,
+     main = "Clustering con k = 4",
+     xlab = "Longitud de URL",
+     ylab = "Bytes")
